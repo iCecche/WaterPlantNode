@@ -25,14 +25,14 @@ const client = mqtt.connect(opt);
 
 client.on("connect", () => {
 	console.log("Connected to the broker...");
-    client.subscribe("demo", (err) => {
+    client.subscribe("$aws/things/Quadro1/shadow/get/accepted", (err) => {
         if(err) {
             console.log("Error subscribing to demo")
         }else {
             console.log("Connected to demo");
         }
     });
-    const content = {
+    /* const content = {
         "message":"Abbello i'm coming for youuuuu!"
     }    
     client.publish("demo", JSON.stringify(content) , (err) =>{
@@ -40,12 +40,12 @@ client.on("connect", () => {
             console.log("Error publishing to demo");
             client.end();
         }
-    });
+    }); */
 });
 
 client.on("message", (topic, message) => {
     const parsedMessage = JSON.parse(message.toString()); //è un oggetto del tipo {"message": "the real message..."}
-    console.log("[Message received]: " + parsedMessage.message);
+    console.log("[Message received]: " + parsedMessage.state.reported["Q..1:1-1"]);
 });
 
 client.on("error", (err) => {
