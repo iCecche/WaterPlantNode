@@ -1,0 +1,138 @@
+html {
+    font-size: 10px;
+    background-color: #1e1e1e;
+}
+
+.card-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card {
+    display: flex;
+    flex-direction: row;
+    width: 16rem;
+    height: 9rem;
+    min-width: 160px;
+    min-height: 90px;
+    margin: 1rem;
+    font-family: 'Inter', sans-serif;
+    /*background-color: #1e1e1e;*/
+    background-color: #fdf8f8;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: 2rem 2rem;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.5rem;
+    /*color: #fdf8f8;*/
+    color: rgba(30, 30, 30, 0.78);
+    width: 100%;
+    text-align: start;
+}
+
+svg {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.data {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0.75rem;
+}
+
+#data-irrigation {
+    margin: 0;
+}
+
+.value {
+    font-size: 5rem;
+    font-weight: 700;
+}
+
+.unit {
+    display: flex;
+    align-items: flex-end;
+    font-size: 3rem;
+    font-weight: 700;
+    padding: 0 0 0.5rem 0;
+}
+
+.indicator {
+    width: 1rem;
+    height: 3rem;
+    border-radius: 1rem;
+    padding: 2rem 0;
+    margin: auto 0;
+}
+
+.temperature-content {
+    color: #EB5050;
+}
+
+#temperature-indicator {
+    background-color: #EB5050;
+}
+
+.humidity-content {
+    color: #5085EB;
+}
+
+#humidity-indicator {
+    background-color: #5085EB;
+}
+
+.irrigation-content {
+    color: #236518;
+}
+
+#irrigation-indicator {
+    background-color: #236518;
+}
+
+.forecast-content {
+    color: #CBA10E;
+}
+
+#forecast-indicator {
+    background-color: #CBA10E;
+}
+
+#irrigation-svg {
+    margin: 0 0 0 0.25rem;
+}
+
+#forecast-svg {
+    width: 2.7rem;
+    height: 2.7rem;
+    margin: 0 0 0 0.25rem;
+}
+
+.soil-moisture-content {
+    color: #8B4503;
+}
+
+#soil-moisture-svg {
+    width: 2.7rem;
+    height: 2.7rem;
+    margin: 0 0 0 0.5rem;
+    border-radius: 0.5rem;
+    
+}

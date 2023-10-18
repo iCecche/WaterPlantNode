@@ -1,10 +1,129 @@
+let timeRecords = [];
+let temperatureRecords = [];
+let humidityRecords = [];
+let soilMoistureRecords = [];
+
+const TemperatureChartOptions = {
+    type: 'line',
+    data: {
+        labels: timeRecords,
+        datasets: [{ 
+            data: temperatureRecords,
+            label: "Temperature",
+            borderColor: "#3e95cd",
+            backgroundColor: "#7bb6dd",
+            fill: false
+        }]
+    },
+    options : {
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 40,
+                ticks: {
+                    stepSize: 1,
+                    steps: 5
+                }
+            }
+        }
+    }
+}
+
+const SoilMoistureOptions = {
+    type: 'line',
+    data: {
+        labels: timeRecords,
+        datasets: [{ 
+            data: soilMoistureRecords,
+            label: "Total",
+            borderColor: "#3e95cd",
+            backgroundColor: "#7bb6dd",
+            fill: false
+        }]
+    },
+    options : {
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 101,
+                ticks: {
+                    stepSize: 5,
+                    steps: 5
+                }
+            }
+        }
+    }
+}
+
+const HumidityChartOptions = {
+    type: 'line',
+    data: {
+        labels: timeRecords,
+        datasets: [{ 
+            data: humidityRecords,
+            label: "Humidity",
+            borderColor: "#3e95cd",
+            backgroundColor: "#7bb6dd",
+            fill: false
+        }]
+    },
+    options : {
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 101,
+                ticks: {
+                    stepSize: 5,
+                    steps: 5
+                }
+            }
+        }
+    }
+}
+
+const temperatureCtx = document.getElementById('temperature-chart').getContext('2d');
+const humidityCtx = document.getElementById('humidity-chart').getContext('2d');
+const soilMoistureCtx = document.getElementById('soil-moisture-chart').getContext('2d');
+
+const temperatureChart = makeChart(temperatureCtx, TemperatureChartOptions);
+const soilMoistureChart = makeChart(soilMoistureCtx, SoilMoistureOptions);
+const humidityChart = makeChart(humidityCtx, HumidityChartOptions);
+
+
+function makeChart(ctx,opt) {
+    let myChart = new Chart(ctx, opt);
+    return myChart;
+}
+
+ function updateCharts() {
+    temperatureChart.update();
+    humidityChart.update();
+    soilMoistureChart.update();
+} 
+
 function updateUi(data) {
+
+    timeRecords.length = 0;
+    temperatureRecords.length = 0;
+    humidityRecords.length = 0;
+    soilMoistureRecords.length = 0;
+
+    data.forEach(obj => {
+        timeRecords.push(obj.timeOfmisuration);
+        temperatureRecords.push(obj.temperature);
+        humidityRecords.push(obj.humidity);
+        soilMoistureRecords.push(obj.soil_moisture);
+    });
     
-    document.getElementById("status").innerHTML = data.status;
-    document.getElementById("motor1").innerHTML = data.motors.motor1.status;
-    document.getElementById("motor2").innerHTML = data.motors.motor2.status;
-    document.getElementById("lamp").innerHTML = data.lamp;
-    document.getElementById("ev").innerHTML = (data.ev == 1) ? "Active" : "Disabled"; 
+    const lastData = data.at(data.length - 1);
+
+    document.getElementById("temperature-value").textContent = lastData.temperature;
+    document.getElementById("humidity-value").textContent = lastData.humidity;
+    document.getElementById("soil-moisture-value").textContent = lastData.soil_moisture;
+    document.getElementById("last-irrigation-value").textContent = lastData.last_irrigation[1];
+    document.getElementById("last-irrigation-unit").textContent = lastData.last_irrigation[2];
+    
+    updateCharts();
     console.log("updateUi executed");
 }
 
@@ -15,29 +134,7 @@ socket.on("newMqttMessage", function (data) {
     updateUi(data);
 });
 
-function updateData() {
-    console.log("updateData");
-    const conn_status = document.getElementById("status").textContent;
-    const motor1_status = document.getElementById("motor1").textContent;
-    const motor2_status = document.getElementById("motor2").textContent;
-    const lamp_status = document.getElementById("lamp").textContent;
-    const ev_status = document.getElementById("ev").textContent == "Active" ? "1" : "0";
-
-    const data = {
-        "status": conn_status,
-        "motors" : {
-            "motor1" : {
-                "status": motor1_status,
-                "speed": "1"
-            },
-            "motor2" : {
-                "status": motor2_status,
-                "speed": "2"
-            },
-        },
-        "lamp" : lamp_status,
-        "ev" : ev_status
-    };
-
-    socket.emit("MqttClientUpdate", data);
-}
+window.addEventListener("load", (event) => {
+    socket.emit("load");
+    console.log("emitted notification");
+});
