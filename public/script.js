@@ -108,6 +108,8 @@ function updateUi(data) {
     humidityRecords.length = 0;
     soilMoistureRecords.length = 0;
 
+    console.log(data);
+
     data.forEach(obj => {
         timeRecords.push(obj.timeOfmisuration);
         temperatureRecords.push(obj.temperature);
@@ -120,8 +122,13 @@ function updateUi(data) {
     document.getElementById("temperature-value").textContent = lastData.temperature;
     document.getElementById("humidity-value").textContent = lastData.humidity;
     document.getElementById("soil-moisture-value").textContent = lastData.soil_moisture;
-    document.getElementById("last-irrigation-value").textContent = lastData.last_irrigation[1];
-    document.getElementById("last-irrigation-unit").textContent = lastData.last_irrigation[2];
+    if (lastData.last_irrigation === "None") {
+        document.getElementById("last-irrigation-value").textContent = "None";
+        document.getElementById("last-irrigation-unit").textContent = "";
+    }else {
+        document.getElementById("last-irrigation-value").textContent = lastData.last_irrigation[1];
+        document.getElementById("last-irrigation-unit").textContent = lastData.last_irrigation[2];
+    }
     
     updateCharts();
     console.log("updateUi executed");
@@ -136,5 +143,11 @@ socket.on("newMqttMessage", function (data) {
 
 window.addEventListener("load", (event) => {
     socket.emit("load");
+    console.log("emitted notification");
+});
+
+let button = document.getElementById("TESTBUTTON");
+button.addEventListener("click", (event) => {
+    socket.emit("new_moisture_limit", "5");
     console.log("emitted notification");
 });

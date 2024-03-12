@@ -32,11 +32,11 @@ const historical = [];
 };  */
 
 const opt = {
-    host: 'e1686c09bb184f40818bb632fedd716f.s2.eu.hivemq.cloud',
-    port: 8883,
+    host: process.env.HOST,
+    port: process.env.PORT,
     protocol: 'mqtts',
-    username: 'ceznini',
-    password: 'Tenesium2023%'
+    username: process.env.USERNAME,
+    password: process.env.PASSWORD
 }
 
 const client = mqtt.connect(opt);
@@ -57,14 +57,13 @@ client.on("connect", () => {
 client.on("message", (topic, message) => {
     const parsedMessage = JSON.parse(message.toString()); //è un oggetto del tipo {"message": "the real message..."}
     console.log("[Message received]: " + parsedMessage);
-
-    const currentDate = new Date();
-    const timestamp = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
-    parsedMessage.timeOfmisuration = timestamp;
-
-    console.log("parsedMessage: ", parsedMessage.irrigation_time);
-
+    
+    
     parsedMessage.last_irrigation = calculateTime(parsedMessage.irrigation_time);
+    parsedMessage.timeOfmisuration = parsedMessage.timeOfmisuration.replace("T", " ");
+    console.log("timeOfmisuration: ", parsedMessage.timeOfmisuration);
+    console.log("irrigation_time: ", parsedMessage.irrigation_time);
+
 
     if (historical.length >= 100 ) {
         historical.shift();
@@ -88,8 +87,20 @@ io.on('connection', (socket) => {
   
     //when the page is loaded/reloaded fill page with the last data retrieved
     socket.on('load', () => {
+        let lastData = historical.at(historical.length-1);
+        lastData.last_irrigation = calculateTime(lastData.irrigation_time)
+        console.log(lastData.last_irrigation);
+
         socket.emit('newMqttMessage', historical);
-        console.log('Received a custom message:');
+        console.log('Received a custom message:', historical);
+    });
+
+    socket.on("new_moisture_limit", (limit) => {
+        client.publish('new_moisture_limit', limit, (err) => 
+        {
+           if (err) console.log(err);
+           else console.log("Message successfully published");
+        });
     });
 });
 
@@ -118,7 +129,6 @@ async function fetchWeather() {
 
     const forecast = data.timelines.hourly.slice(3,15);
     const weatherObject = forecast.find(h => h.values.precipitationProbability > 0);
-    console.log(weatherObject);
 
     if(weatherObject != undefined) {
         const rainProbability = weatherObject.values.precipitationProbability;
@@ -129,6 +139,8 @@ async function fetchWeather() {
 }
 
 function calculateTime(timestamp) {
+
+    if(timestamp == 0) return "None";
 
     const format = "YYYY-MM-DD HH:mm:ss"; 
     
@@ -161,4 +173,4 @@ function convertTimeUnitsAbbreviations(inputString) {
     const regexPattern = new RegExp(timeUnits.map(unit => unit.full).join('|'), 'gi');
     
     return inputString.replace(regexPattern, match => timeUnits.find(unit => unit.full.toLowerCase() === match.toLowerCase())?.abbreviation || match);
-  }
+}
