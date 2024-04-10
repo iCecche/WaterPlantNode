@@ -129,6 +129,10 @@ svg {
     color: #8B4503;
 }
 
+#soil-moisture-indicator {
+    background-color: #8B4503;
+}
+
 #soil-moisture-svg {
     width: 2.7rem;
     height: 2.7rem;

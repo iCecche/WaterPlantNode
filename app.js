@@ -20,23 +20,14 @@ const io = socketIO(server);
 
 const historical = [];
 
-/* const opt = {
-    host: process.env.IOT_ENDPOINT,
-    protocol: "mqtt",
-    clientId: process.env.THING_NAME,
-    clean: true,
-    key: process.env.PRIV_KEY,
-    cert: process.env.CERT,
-    ca: process.env.CA,
-    reconnectPeriod: 0,
-};  */
-
 const opt = {
+    clientID: process.env.CLIENTID,
     host: process.env.HOST,
     port: process.env.PORT,
     protocol: 'mqtts',
     username: process.env.USERNAME,
-    password: process.env.PASSWORD
+    password: process.env.PASSWORD,
+    keepalive: 300
 }
 
 const client = mqtt.connect(opt);
@@ -77,7 +68,10 @@ client.on("error", (err) => {
 });
 
 client.on("close", () => {
+    const time = moment();
     console.log("Connection to the broker closed.");
+    console.log(time)
+    client.reconnect();
 });
 
 //socket handlers
@@ -107,14 +101,10 @@ io.on('connection', (socket) => {
 //routes
 
 app.get('/', async (req, res) => {
-    const probability = await fetchWeather();
+    //const probability = await fetchWeather();
     res.render("dashboard", {
-        rainProbability: probability
+        rainProbability: 0
     });    
-})
-
-app.get("/updateData", (req, res) => {
- 
 })
 
 //use server.listen instead of app.listen to use socket.io
