@@ -27,7 +27,13 @@ const opt = {
     protocol: 'mqtts',
     username: process.env.USERNAME,
     password: process.env.PASSWORD,
-    keepalive: 300
+    keepalive: 300,
+    will: {
+        topic: 'status/online',
+        payload: 'offline',
+        qos: 1,
+        retain: true
+    }
 }
 
 const client = mqtt.connect(opt);
@@ -114,7 +120,7 @@ server.listen(process.env.PORT || 3000, () => {
 
 async function fetchWeather() {
     
-    const url = "https://api.tomorrow.io/v4/weather/forecast?location=scandicci&timesteps=1h&units=metric&apikey="+ process.env.API_KEY;
+    const url = "https://api.tomorrow.io/v4/weather/forecast?location=scandicci&timesteps=1h&units=metric&apikey="+ process.env.APIKEY;
     const data = await axios.get(url).then((response) => response.data);
 
     const forecast = data.timelines.hourly.slice(3,15);
