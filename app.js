@@ -101,9 +101,9 @@ io.on('connection', (socket) => {
 //routes
 
 app.get('/', async (req, res) => {
-    //const probability = await fetchWeather();
+    const probability = await fetchWeather();
     res.render("dashboard", {
-        rainProbability: 0
+        rainProbability: probability
     });    
 })
 
