@@ -108,7 +108,7 @@ app.get('/', async (req, res) => {
 })
 
 //use server.listen instead of app.listen to use socket.io
-server.listen(3000, () => {
+server.listen(process.env.PORT || 3000, () => {
     console.log('Server is running on port 3000');
 });
 
