@@ -23,7 +23,7 @@ const historical = [];
 const opt = {
     clientID: process.env.CLIENTID,
     host: process.env.HOST,
-    port: process.env.PORT,
+    port: process.env.BROKERPORT,
     protocol: 'mqtts',
     username: process.env.USERNAME,
     password: process.env.PASSWORD,
