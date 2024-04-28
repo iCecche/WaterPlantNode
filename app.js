@@ -62,7 +62,7 @@ client.on("message", (topic, message) => {
     console.log("irrigation_time: ", parsedMessage.irrigation_time);
 
 
-    if (historical.length >= 100 ) {
+    if (historical.length >= 72 ) {
         historical.shift();
     }
     historical.push(parsedMessage);
