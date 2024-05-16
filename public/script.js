@@ -2,6 +2,7 @@ let timeRecords = [];
 let temperatureRecords = [];
 let humidityRecords = [];
 let soilMoistureRecords = [];
+let batteryRecords = [];
 
 const TemperatureChartOptions = {
     type: 'line',
@@ -16,13 +17,14 @@ const TemperatureChartOptions = {
         }]
     },
     options : {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
             y: {
                 beginAtZero: true,
                 max: 40,
                 ticks: {
                     stepSize: 1,
-                    steps: 5
                 }
             }
         }
@@ -35,20 +37,21 @@ const SoilMoistureOptions = {
         labels: timeRecords,
         datasets: [{ 
             data: soilMoistureRecords,
-            label: "Total",
+            label: "Moisture",
             borderColor: "#3e95cd",
             backgroundColor: "#7bb6dd",
             fill: false
         }]
     },
     options : {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
             y: {
                 beginAtZero: true,
-                max: 101,
+                max: 100,
                 ticks: {
-                    stepSize: 5,
-                    steps: 5
+                    stepSize: 5
                 }
             }
         }
@@ -68,13 +71,41 @@ const HumidityChartOptions = {
         }]
     },
     options : {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
             y: {
                 beginAtZero: true,
-                max: 101,
+                max: 100,
                 ticks: {
                     stepSize: 5,
-                    steps: 5
+                }
+            }
+        }
+    }
+}
+
+const BatteryChartOptions = {
+    type: 'line',
+    data: {
+        labels: timeRecords,
+        datasets: [{ 
+            data: batteryRecords,
+            label: "Battery",
+            borderColor: "#3e95cd",
+            backgroundColor: "#7bb6dd",
+            fill: false
+        }]
+    },
+    options : {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 4.2,
+                ticks: {
+                    stepSize: 0.1,
                 }
             }
         }
@@ -84,10 +115,12 @@ const HumidityChartOptions = {
 const temperatureCtx = document.getElementById('temperature-chart').getContext('2d');
 const humidityCtx = document.getElementById('humidity-chart').getContext('2d');
 const soilMoistureCtx = document.getElementById('soil-moisture-chart').getContext('2d');
+const batteryCtx = document.getElementById('battery-chart').getContext('2d');
 
 const temperatureChart = makeChart(temperatureCtx, TemperatureChartOptions);
 const soilMoistureChart = makeChart(soilMoistureCtx, SoilMoistureOptions);
 const humidityChart = makeChart(humidityCtx, HumidityChartOptions);
+const batteryChart = makeChart(batteryCtx, BatteryChartOptions);
 
 
 function makeChart(ctx,opt) {
@@ -99,6 +132,7 @@ function makeChart(ctx,opt) {
     temperatureChart.update();
     humidityChart.update();
     soilMoistureChart.update();
+    batteryChart.update();
 } 
 
 function updateUi(data) {
@@ -107,6 +141,7 @@ function updateUi(data) {
     temperatureRecords.length = 0;
     humidityRecords.length = 0;
     soilMoistureRecords.length = 0;
+    batteryRecords.length = 0;
 
     console.log(data);
 
@@ -115,6 +150,7 @@ function updateUi(data) {
         temperatureRecords.push(obj.temperature);
         humidityRecords.push(obj.humidity);
         soilMoistureRecords.push(obj.soil_moisture);
+        batteryRecords.push(obj.battery_level);
     });
     
     const lastData = data.at(data.length - 1);
@@ -122,6 +158,11 @@ function updateUi(data) {
     document.getElementById("temperature-value").textContent = lastData.temperature;
     document.getElementById("humidity-value").textContent = lastData.humidity;
     document.getElementById("soil-moisture-value").textContent = lastData.soil_moisture;
+    document.getElementById("battery-value").textContent = lastData.battery_level.toFixed(2);
+    document.getElementById("moisture-limit-value").value = lastData.soil_moisture_limit;
+    document.getElementById("activate-pump-for-value").value = lastData.activate_pump_for;
+    document.getElementById("misuration-interval-value").value = lastData.misuration_interval;
+
     if (lastData.last_irrigation === "None") {
         document.getElementById("last-irrigation-value").textContent = "None";
         document.getElementById("last-irrigation-unit").textContent = "";
@@ -132,6 +173,29 @@ function updateUi(data) {
     
     updateCharts();
     console.log("updateUi executed");
+}
+//create dinamic alert pop-up and remove it after 10s
+function CreateAlertMessage() {
+
+    let alert_container = document.getElementById("alert-container")
+    let alert = document.createElement("div");
+    let icon_message = document.createElement('i');
+    let span_message = document.createElement('span');
+
+    alert.id = "success-alert";
+
+    icon_message.className = 'material-icons ';
+    icon_message.innerText = 'check_circle';
+
+    span_message.innerText = "Message successfully published";
+
+    alert.appendChild(icon_message);
+    alert.appendChild(span_message);
+    alert_container.appendChild(alert);
+
+     setTimeout(function() {
+        alert.remove(); // Hide the alert after 10 seconds
+    }, 10000); // 10 seconds 
 }
 
 const url = window.location.origin;
@@ -146,8 +210,32 @@ window.addEventListener("load", (event) => {
     console.log("emitted notification");
 });
 
-let button = document.getElementById("TESTBUTTON");
-button.addEventListener("click", (event) => {
-    socket.emit("new_moisture_limit", "5");
+let soil_button = document.getElementById("moisture-limit-btn");
+soil_button.addEventListener("click", (event) => {
+    let value = document.getElementById("moisture-limit-value").value
+    
+    socket.emit("new_moisture_limit", value);
     console.log("emitted notification");
+
+    CreateAlertMessage();
+});
+
+let pump_active_button = document.getElementById("activate-pump-for-btn");
+pump_active_button.addEventListener("click", (event) => {
+    let value = document.getElementById("activate-pump-for-value").value
+    
+    socket.emit("new_active_pump_for", value);
+    console.log("emitted notification");
+
+    CreateAlertMessage();
+});
+
+let misuration_interval = document.getElementById("misuration-interval-btn");
+misuration_interval.addEventListener("click", (event) => {
+    let value = document.getElementById("misuration-interval-value").value
+    
+    socket.emit("new_misuration_interval", value);
+    console.log("emitted notification");
+
+    CreateAlertMessage();
 });

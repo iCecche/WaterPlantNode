@@ -96,7 +96,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on("new_moisture_limit", (limit) => {
-        client.publish('new_moisture_limit', limit, (err) => 
+        client.publish('new_moisture_limit', limit, { retain: true }, (err) => 
         {
            if (err) console.log(err);
            else console.log("Message successfully published");

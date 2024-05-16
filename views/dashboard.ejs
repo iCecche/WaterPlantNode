@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.0/chart.umd.js"></script>
@@ -51,7 +52,7 @@
             </div>
         </div>    
         <div class="indicator" id="soil-moisture-indicator"></div>
-    </div>   
+    </div>
     <div class="card">
         <div class="content">
             <div class="title">
@@ -78,19 +79,55 @@
         </div>    
         <div class="indicator" id="forecast-indicator"></div>
     </div>
+    <div class="card">
+        <div class="content">
+            <div class="title">
+                <span>Battery</span>
+                <svg class="battery-content" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M464 160c8.8 0 16 7.2 16 16V336c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V176c0-8.8 7.2-16 16-16H464zM80 96C35.8 96 0 131.8 0 176V336c0 44.2 35.8 80 80 80H464c44.2 0 80-35.8 80-80V320c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32V176c0-44.2-35.8-80-80-80H80zm272 96H96V320H352V192z"/></svg>
+            </div>
+            <div class="data battery-content">
+                <span class="value" id="battery-value">4.1</span>
+                <span class="unit">V</span>
+            </div>
+        </div>    
+        <div class="indicator" id="battery-indicator"></div>
+    </div>   
     </div>
     <section class="data-charts">
-        <div>
+        <div class="chart-container">
             <canvas id="temperature-chart"></canvas>
         </div>
-        <div>
+        <div class="chart-container">
             <canvas id="humidity-chart"></canvas>
         </div>
-        <div>
+        <div class="chart-container">
             <canvas id="soil-moisture-chart"></canvas>
         </div>
+        <div class="chart-container">
+            <canvas id="battery-chart"></canvas>
+        </div>
     </section>
-    <button id="TESTBUTTON">TEST BUTTON</button>   
+    <section id="mqtt-section">
+        <div id="moisture-limit-div" class="input-section-wrapper">
+            <label for="moisture-limit-value" id="moisture-limit-label" class="label">Moisture Limit (0-100):</label>
+            <input type="number" id="moisture-limit-value" class="input" name="moisture-limit-value" min="0" max="100" />
+            <button id="moisture-limit-btn" class="btn">Publish</button>   
+        </div>
+        <div id="activate-pump-for-div" class="input-section-wrapper">
+            <label for="activate-pump-for-value" id="activate-pump-for-label" class="label">Activate Pump For (0-100):</label>
+            <input type="number" id="activate-pump-for-value" class="input" name="activate-pump-for-value" min="1" max="10" step="0.1"/>
+            <button id="activate-pump-for-btn" class="btn">Publish</button>   
+        </div>
+        <div id="misuration-interval-div" class="input-section-wrapper">
+            <label for="misuration-interval-value" id="misuration-interval-label" class="label">Misuration Interval (0-86.400):</label>
+            <input type="number" id="misuration-interval-value" class="input" name="misuration-interval-value" min="0" max="86400" />
+            <button id="misuration-interval-btn" class="btn">Publish</button>   
+        </div>
+        <div id="alert-container">
+            
+        </div>
+    </section>
+    
 </body>
 <script src="script.js" type="text/javascript"></script>
 </html>
