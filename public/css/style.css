@@ -216,8 +216,8 @@ svg {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    top: 95rem;
+    position: fixed;
+    top: 0px;
     right: 3rem;
     width: 15%;
 }
@@ -249,9 +249,13 @@ svg {
 }
 
 @media screen and (max-width: 600px) {
-    #success-alert {
+    #alert-container  {
         width: 50%;
-        bottom: -30rem;
+        top: 155vh;
+    }
+
+    .input-section-wrapper {
+        width: 80%;
     }
 }
 

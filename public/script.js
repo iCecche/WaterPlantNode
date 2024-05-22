@@ -135,6 +135,10 @@ function makeChart(ctx,opt) {
     batteryChart.update();
 } 
 
+function mapValue(voltage, minVoltage, maxVoltage) {
+    return((voltage - minVoltage) / (maxVoltage - minVoltage)) * 100;
+}
+
 function updateUi(data) {
 
     timeRecords.length = 0;
@@ -235,6 +239,17 @@ misuration_interval.addEventListener("click", (event) => {
     let value = document.getElementById("misuration-interval-value").value
     
     socket.emit("new_misuration_interval", value);
+    console.log("emitted notification");
+
+    CreateAlertMessage();
+});
+
+let irrigate_now = document.getElementById("irrigate-now-btn");
+irrigate_now.addEventListener("click", (event) => {
+    let value = document.getElementById("irrigate-now-value").checked
+    value = String(value)
+
+    //socket.emit("irrigate_now", value);
     console.log("emitted notification");
 
     CreateAlertMessage();

@@ -25,6 +25,7 @@ const opt = {
     host: process.env.HOST,
     port: process.env.BROKERPORT,
     protocol: 'mqtts',
+    protocolVersion: 5,
     username: process.env.USERNAME,
     password: process.env.PASSWORD,
     keepalive: 300,
@@ -53,13 +54,13 @@ client.on("connect", () => {
 
 client.on("message", (topic, message) => {
     const parsedMessage = JSON.parse(message.toString()); //è un oggetto del tipo {"message": "the real message..."}
-    console.log("[Message received]: " + parsedMessage);
+    //console.log("[Message received]: " + parsedMessage);
     
     
     parsedMessage.last_irrigation = calculateTime(parsedMessage.irrigation_time);
     parsedMessage.timeOfmisuration = parsedMessage.timeOfmisuration.replace("T", " ");
-    console.log("timeOfmisuration: ", parsedMessage.timeOfmisuration);
-    console.log("irrigation_time: ", parsedMessage.irrigation_time);
+    //console.log("timeOfmisuration: ", parsedMessage.timeOfmisuration);
+    //console.log("irrigation_time: ", parsedMessage.irrigation_time);
 
 
     if (historical.length >= 72 ) {
@@ -76,30 +77,74 @@ client.on("error", (err) => {
 client.on("close", () => {
     const time = moment();
     console.log("Connection to the broker closed.");
-    console.log(time)
+    //console.log(time)
     client.reconnect();
 });
 
 //socket handlers
 
 io.on('connection', (socket) => {
-    console.log('A user connected');
+    //console.log('A user connected');
   
     //when the page is loaded/reloaded fill page with the last data retrieved
     socket.on('load', () => {
         let lastData = historical.at(historical.length-1);
         lastData.last_irrigation = calculateTime(lastData.irrigation_time)
-        console.log(lastData.last_irrigation);
+        //console.log(lastData.last_irrigation);
 
         socket.emit('newMqttMessage', historical);
-        console.log('Received a custom message:', historical);
+        //console.log('Received a custom message:', historical);
     });
 
-    socket.on("new_moisture_limit", (limit) => {
-        client.publish('new_moisture_limit', limit, { retain: true }, (err) => 
+    socket.on("new_moisture_limit", (value) => {
+        client.publish('new_moisture_limit', value, { 
+            retain: true,
+            properties: {
+                messageExpiryInterval: 3600
+            }
+        }, (err) => 
         {
            if (err) console.log(err);
-           else console.log("Message successfully published");
+           //else console.log("Message successfully published");
+        });
+    });
+
+    socket.on("new_active_pump_for", (value) => {
+        client.publish('new_active_pump_for', value, { 
+            retain: true,
+            properties: {
+                messageExpiryInterval: 3600
+            }
+        }, (err) => 
+        {
+           if (err) console.log(err);
+           //else console.log("Message successfully published");
+        });
+    });
+
+    socket.on("new_misuration_interval", (value) => {
+        client.publish('new_misuration_interval', value, { 
+            retain: true,
+            properties: {
+                messageExpiryInterval: 3600
+            }
+        }, (err) => 
+        {
+           if (err) console.log(err);
+           //else console.log("Message successfully published");
+        });
+    });
+
+    socket.on("irrigate_now", (value) => {
+        client.publish('irrigate_now', value, { 
+            retain: true,
+            properties: {
+                messageExpiryInterval: 3600
+            }
+        }, (err) => 
+        {
+           if (err) console.log(err);
+           //else console.log("Message successfully published");
         });
     });
 });
