@@ -1,7 +1,7 @@
 let express = require('express');
 let bodyParser = require('body-parser');
 let _ = require('lodash');
-const moment = require('moment');
+const moment = require('moment-timezone');
 const axios = require("axios");
 const mqtt = require('mqtt');
 const http = require('http');
@@ -185,7 +185,7 @@ function calculateTime(timestamp) {
 
     const format = "YYYY-MM-DD HH:mm:ss"; 
     
-    let date = moment(timestamp).format(format);
+    let date = moment(timestamp).tz("Europe/Rome").format(format);
     let difference = moment(date).fromNow(true);
 
     return extractSubstrings(difference);
