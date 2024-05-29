@@ -164,9 +164,18 @@ server.listen(process.env.PORT || 3000, () => {
 });
 
 async function fetchWeather() {
-    
-    const url = "https://api.tomorrow.io/v4/weather/forecast?location=scandicci&timesteps=1h&units=metric&apikey="+ process.env.APIKEY;
-    const data = await axios.get(url).then((response) => response.data);
+
+    latitude = 43.751028
+    longitude = 11.172644
+
+    const url = `https://api.tomorrow.io/v4/weather/forecast`;
+    const params = {
+        location: `${latitude},${longitude}`,
+        units: 'metric',
+        timesteps: '1h',
+        apikey: process.env.APIKEY
+    };
+    const data = await axios.get(url, {params}).then((response) => response.data);
 
     const forecast = data.timelines.hourly.slice(3,15);
     const weatherObject = forecast.find(h => h.values.precipitationProbability > 0);
