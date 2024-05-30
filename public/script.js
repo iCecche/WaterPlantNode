@@ -11,9 +11,9 @@ const TemperatureChartOptions = {
         datasets: [{ 
             data: temperatureRecords,
             label: "Temperature",
-            borderColor: "#3e95cd",
-            backgroundColor: "#7bb6dd",
-            fill: false
+            borderColor: "rgba(255, 63, 105, 1)",
+            backgroundColor: 'rgba(255, 63, 105, 0.4)', 
+            fill: false,
         }]
     },
     options : {
@@ -38,9 +38,9 @@ const SoilMoistureOptions = {
         datasets: [{ 
             data: soilMoistureRecords,
             label: "Moisture",
-            borderColor: "#3e95cd",
-            backgroundColor: "#7bb6dd",
-            fill: false
+            borderColor: 'rgba(142, 111, 103,1)',
+            backgroundColor: 'rgba(142, 111, 103, 0.4)',
+            fill: false,
         }]
     },
     options : {
@@ -65,9 +65,9 @@ const HumidityChartOptions = {
         datasets: [{ 
             data: humidityRecords,
             label: "Humidity",
-            borderColor: "#3e95cd",
-            backgroundColor: "#7bb6dd",
-            fill: false
+            borderColor: 'rgba(3, 155, 255,1)',
+            backgroundColor: 'rgba(3, 155, 255,1)',
+            fill: false,
         }]
     },
     options : {
@@ -92,8 +92,8 @@ const BatteryChartOptions = {
         datasets: [{ 
             data: batteryRecords,
             label: "Battery",
-            borderColor: "#3e95cd",
-            backgroundColor: "#7bb6dd",
+            borderColor: "rgba(255, 255, 0,1)",
+            backgroundColor: "rgba(255, 255, 0,0.4)",
             fill: false
         }]
     },
@@ -249,7 +249,7 @@ irrigate_now.addEventListener("click", (event) => {
     let value = document.getElementById("irrigate-now-value").checked
     value = String(value)
 
-    //socket.emit("irrigate_now", value);
+    socket.emit("irrigate_now", value);
     console.log("emitted notification");
 
     CreateAlertMessage();
