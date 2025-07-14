@@ -13,125 +13,162 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.0/chart.umd.js"></script>
 </head>
 <body>
+    <div class="dashboard-header">
+        <h1 class="dashboard-title">Smart Garden Dashboard</h1>
+        <p class="dashboard-subtitle">Monitor and control your garden in real-time</p>
+    </div>
+
     <div class="card-container">
-    <div class="card">
-        <div class="content">
-            <div class="title">
-                <span> Temperature</span>
-                <svg class="temperature-content" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M17.5 19.508V8.626h-4v10.88c-1.403.728-2.374 2.18-2.374 3.87a4.376 4.376 0 0 0 8.751.001c0-1.69-.97-3.142-2.376-3.868zm3-14.26c0-2.756-2.244-5-5-5s-5 2.245-5 5v12.727a7.313 7.313 0 0 0-2.375 5.4c0 4.066 3.31 7.377 7.376 7.377s7.375-3.31 7.375-7.377c0-2.086-.878-4.03-2.375-5.402V5.25zm.375 18.13A5.379 5.379 0 0 1 15.5 28.75a5.38 5.38 0 0 1-5.373-5.373c0-1.795.896-3.443 2.376-4.438V5.25c0-1.653 1.343-3 2.997-3s3 1.346 3 3v13.69a5.332 5.332 0 0 1 2.375 4.437zm1.21-14.752l4.5 2.598V6.03l-4.5 2.596z"/></svg>
+        <div class="card temperature">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                        <path fill="currentColor" d="M17.5 19.508V8.626h-4v10.88c-1.403.728-2.374 2.18-2.374 3.87a4.376 4.376 0 0 0 8.751.001c0-1.69-.97-3.142-2.376-3.868zm3-14.26c0-2.756-2.244-5-5-5s-5 2.245-5 5v12.727a7.313 7.313 0 0 0-2.375 5.4c0 4.066 3.31 7.377 7.376 7.377s7.375-3.31 7.375-7.377c0-2.086-.878-4.03-2.375-5.402V5.25zm.375 18.13A5.379 5.379 0 0 1 15.5 28.75a5.38 5.38 0 0 1-5.373-5.373c0-1.795.896-3.443 2.376-4.438V5.25c0-1.653 1.343-3 2.997-3s3 1.346 3 3v13.69a5.332 5.332 0 0 1 2.375 4.437zm1.21-14.752l4.5 2.598V6.03l-4.5 2.596z"/>
+                    </svg>
+                </div>
+                <h2 class="card-title">Temperature</h2>
             </div>
-            <div class="data temperature-content">
+            <div class="card-value">
                 <span class="value" id="temperature-value">26</span>
                 <span class="unit">°C</span>
             </div>
-        </div>    
-        <div class="indicator" id="temperature-indicator"></div>
-    </div>   
-    <div class="card">
-        <div class="content">
-            <div class="title">
-                <span> Humidity</span>
-                <svg class="humidity-content" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M23.476 13.993L16.847 3.437a1.04 1.04 0 0 0-1.694 0L8.494 14.043A9.986 9.986 0 0 0 7 19a9 9 0 0 0 18 0a10.063 10.063 0 0 0-1.524-5.007ZM16 26a7.009 7.009 0 0 1-7-7a7.978 7.978 0 0 1 1.218-3.943l.935-1.49l10.074 10.074A6.977 6.977 0 0 1 16 26.001Z"/></svg>
+            <div class="card-indicator" style="--indicator-width: 65%"></div>
+        </div>
+
+        <div class="card humidity">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                        <path fill="currentColor" d="M23.476 13.993L16.847 3.437a1.04 1.04 0 0 0-1.694 0L8.494 14.043A9.986 9.986 0 0 0 7 19a9 9 0 0 0 18 0a10.063 10.063 0 0 0-1.524-5.007ZM16 26a7.009 7.009 0 0 1-7-7a7.978 7.978 0 0 1 1.218-3.943l.935-1.49l10.074 10.074A6.977 6.977 0 0 1 16 26.001Z"/>
+                    </svg>
+                </div>
+                <h2 class="card-title">Humidity</h2>
             </div>
-            <div class="data humidity-content">
+            <div class="card-value">
                 <span class="value" id="humidity-value">32</span>
                 <span class="unit">%</span>
             </div>
-        </div>    
-        <div class="indicator" id="humidity-indicator"></div>
-    </div>   
-    <div class="card">
-        <div class="content">
-            <div class="title">
-                <span> Soil Moisture</span>
-                <svg id="soil-moisture-svg" class="soil-moisture-content" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M25 30a4.735 4.735 0 0 1-4.207-7.35l3.368-5.194a1 1 0 0 1 1.678 0l3.315 5.11A4.975 4.975 0 0 1 30 25.223A4.898 4.898 0 0 1 25 30zm0-10.163l-2.508 3.866A2.926 2.926 0 1 0 28 25.223a2.96 2.96 0 0 0-.544-1.603zM11 24H9A17.02 17.02 0 0 1 26 7h4v2h-4a15.017 15.017 0 0 0-15 15z"/><path fill="currentColor" d="M16 24h-2a12.014 12.014 0 0 1 12-12h4v2h-4a10.011 10.011 0 0 0-10 10Z"/><path fill="currentColor" d="M26 2a21.863 21.863 0 0 0-12 3.576A21.856 21.856 0 0 0 2 2v2a19.873 19.873 0 0 1 10.262 2.835a22.151 22.151 0 0 0-2.315 2.144A17.001 17.001 0 0 0 2 7v2a15.014 15.014 0 0 1 6.62 1.537a22.077 22.077 0 0 0-1.702 2.537A12.032 12.032 0 0 0 2 12v2a9.884 9.884 0 0 1 4 .85A21.861 21.861 0 0 0 4 24h2A20.023 20.023 0 0 1 26 4h4V2Z"/></svg>
+            <div class="card-indicator" style="--indicator-width: 32%"></div>
+        </div>
+
+        <div class="card soil-moisture">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                        <path fill="currentColor" d="M25 30a4.735 4.735 0 0 1-4.207-7.35l3.368-5.194a1 1 0 0 1 1.678 0l3.315 5.11A4.975 4.975 0 0 1 30 25.223A4.898 4.898 0 0 1 25 30zm0-10.163l-2.508 3.866A2.926 2.926 0 1 0 28 25.223a2.96 2.96 0 0 0-.544-1.603zM11 24H9A17.02 17.02 0 0 1 26 7h4v2h-4a15.017 15.017 0 0 0-15 15z"/>
+                        <path fill="currentColor" d="M16 24h-2a12.014 12.014 0 0 1 12-12h4v2h-4a10.011 10.011 0 0 0-10 10Z"/>
+                        <path fill="currentColor" d="M26 2a21.863 21.863 0 0 0-12 3.576A21.856 21.856 0 0 0 2 2v2a19.873 19.873 0 0 1 10.262 2.835a22.151 22.151 0 0 0-2.315 2.144A17.001 17.001 0 0 0 2 7v2a15.014 15.014 0 0 1 6.62 1.537a22.077 22.077 0 0 0-1.702 2.537A12.032 12.032 0 0 0 2 12v2a9.884 9.884 0 0 1 4 .85A21.861 21.861 0 0 0 4 24h2A20.023 20.023 0 0 1 26 4h4V2Z"/>
+                    </svg>
+                </div>
+                <h2 class="card-title">Soil Moisture</h2>
             </div>
-            <div class="data soil-moisture-content">
+            <div class="card-value">
                 <span class="value" id="soil-moisture-value">32</span>
                 <span class="unit">%</span>
             </div>
-        </div>    
-        <div class="indicator" id="soil-moisture-indicator"></div>
-    </div>
-    <div class="card">
-        <div class="content">
-            <div class="title">
-                <span> Last Irrigation</span>
-                <svg class="irrigation-content" id="irrigation-svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M20.998 3v2a7 7 0 0 1-7 7h-1v1h5v7a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2v-7h5v-3a7 7 0 0 1 7-7h3Zm-15.5-1a7.49 7.49 0 0 1 6.124 3.169A7.962 7.962 0 0 0 9.998 10v1h-.5a7.5 7.5 0 0 1-7.5-7.5V2h3.5Z"/></svg>
+            <div class="card-indicator" style="--indicator-width: 32%"></div>
+        </div>
+
+        <div class="card irrigation">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M20.998 3v2a7 7 0 0 1-7 7h-1v1h5v7a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2v-7h5v-3a7 7 0 0 1 7-7h3Zm-15.5-1a7.49 7.49 0 0 1 6.124 3.169A7.962 7.962 0 0 0 9.998 10v1h-.5a7.5 7.5 0 0 1-7.5-7.5V2h3.5Z"/>
+                    </svg>
+                </div>
+                <h2 class="card-title">Last Irrigation</h2>
             </div>
-            <div class="data irrigation-content" id="data-irrigation">
+            <div class="card-value">
                 <span class="value" id="last-irrigation-value">2</span>
                 <span class="unit" id="last-irrigation-unit">hours</span>
             </div>
-        </div>    
-        <div class="indicator" id="irrigation-indicator"></div>
-    </div>   
-    <div class="card">
-        <div class="content">
-            <div class="title">
-                <span> Forecast</span>
-                <svg id="forecast-svg" class="forecast-content" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4.001c3.168 0 4.966 2.097 5.227 4.63h.08A3.687 3.687 0 0 1 21 12.314a3.687 3.687 0 0 1-3.692 3.682h-.582l-1.583 2.637a.75.75 0 0 1-1.344-.659l.045-.091l1.15-1.887h-2.136l-1.583 2.637a.75.75 0 0 1-1.344-.659l.045-.091l1.15-1.887h-2.14l-1.581 2.637a.75.75 0 0 1-1.344-.659l.045-.091l1.148-1.887h-.562A3.687 3.687 0 0 1 3 12.314A3.687 3.687 0 0 1 6.693 8.63h.08C7.035 6.08 8.831 4 12 4Z"/></svg>
+            <div class="card-indicator" style="--indicator-width: 80%"></div>
+        </div>
+
+        <div class="card forecast">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M12 4.001c3.168 0 4.966 2.097 5.227 4.63h.08A3.687 3.687 0 0 1 21 12.314a3.687 3.687 0 0 1-3.692 3.682h-.582l-1.583 2.637a.75.75 0 0 1-1.344-.659l.045-.091l1.15-1.887h-2.136l-1.583 2.637a.75.75 0 0 1-1.344-.659l.045-.091l1.15-1.887h-2.14l-1.581 2.637a.75.75 0 0 1-1.344-.659l.045-.091l1.148-1.887h-.562A3.687 3.687 0 0 1 3 12.314A3.687 3.687 0 0 1 6.693 8.63h.08C7.035 6.08 8.831 4 12 4Z"/>
+                    </svg>
+                </div>
+                <h2 class="card-title">Rain Forecast</h2>
             </div>
-            <div class="data forecast-content">
-                <span class="value"><%- rainProbability %></span>
+            <div class="card-value">
+                <span class="value">25</span>
                 <span class="unit">%</span>
             </div>
-        </div>    
-        <div class="indicator" id="forecast-indicator"></div>
-    </div>
-    <div class="card">
-        <div class="content">
-            <div class="title">
-                <span>Battery</span>
-                <svg class="battery-content" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M464 160c8.8 0 16 7.2 16 16V336c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V176c0-8.8 7.2-16 16-16H464zM80 96C35.8 96 0 131.8 0 176V336c0 44.2 35.8 80 80 80H464c44.2 0 80-35.8 80-80V320c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32V176c0-44.2-35.8-80-80-80H80zm272 96H96V320H352V192z"/></svg>
+            <div class="card-indicator" style="--indicator-width: 25%"></div>
+        </div>
+
+        <div class="card battery">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                        <path fill="currentColor" d="M464 160c8.8 0 16 7.2 16 16V336c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V176c0-8.8 7.2-16 16-16H464zM80 96C35.8 96 0 131.8 0 176V336c0 44.2 35.8 80 80 80H464c44.2 0 80-35.8 80-80V320c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32V176c0-44.2-35.8-80-80-80H80zm272 96H96V320H352V192z"/>
+                    </svg>
+                </div>
+                <h2 class="card-title">Battery Level</h2>
             </div>
-            <div class="data battery-content">
+            <div class="card-value">
                 <span class="value" id="battery-value">4.1</span>
                 <span class="unit">V</span>
             </div>
-        </div>    
-        <div class="indicator" id="battery-indicator"></div>
-    </div>   
+            <div class="card-indicator" style="--indicator-width: 97%"></div>
+        </div>
     </div>
-    <section class="data-charts">
-        <div class="chart-container">
-            <canvas id="temperature-chart"></canvas>
+
+    <div class="charts-section">
+        <h2 class="section-title">Historical Data</h2>
+        <div class="charts-grid">
+            <div class="chart-container">
+                <canvas id="temperature-chart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="humidity-chart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="soil-moisture-chart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="battery-chart"></canvas>
+            </div>
         </div>
-        <div class="chart-container">
-            <canvas id="humidity-chart"></canvas>
+    </div>
+
+    <div class="controls-section">
+        <h2 class="section-title">Garden Controls</h2>
+        <div class="controls-grid">
+            <div class="control-group">
+                <label for="moisture-limit-value" class="control-label">Moisture Limit (0-100%)</label>
+                <input type="number" id="moisture-limit-value" class="control-input" min="0" max="100" />
+                <button id="moisture-limit-btn" class="control-btn">Update Limit</button>
+            </div>
+
+            <div class="control-group">
+                <label for="activate-pump-for-value" class="control-label">Pump Duration (1-10 seconds)</label>
+                <input type="number" id="activate-pump-for-value" class="control-input" min="1" max="10" step="0.1"/>
+                <button id="activate-pump-for-btn" class="control-btn">Set Duration</button>
+            </div>
+
+            <div class="control-group">
+                <label for="misuration-interval-value" class="control-label">Measurement Interval (seconds)</label>
+                <input type="number" id="misuration-interval-value" class="control-input" min="0" max="86400" />
+                <button id="misuration-interval-btn" class="control-btn">Update Interval</button>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">Irrigation Control</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="irrigate-now-value" class="control-input" />
+                    <span style="color: rgba(255, 255, 255, 0.9);">Irrigate on next measurement</span>
+                </div>
+                <button id="irrigate-now-btn" class="control-btn">Apply Setting</button>
+            </div>
         </div>
-        <div class="chart-container">
-            <canvas id="soil-moisture-chart"></canvas>
-        </div>
-        <div class="chart-container">
-            <canvas id="battery-chart"></canvas>
-        </div>
-    </section>
-    <section id="mqtt-section">
-        <div id="moisture-limit-div" class="input-section-wrapper">
-            <label for="moisture-limit-value" id="moisture-limit-label" class="label">Moisture Limit (0-100):</label>
-            <input type="number" id="moisture-limit-value" class="input" name="moisture-limit-value" min="0" max="100" />
-            <button id="moisture-limit-btn" class="btn">Publish</button>   
-        </div>
-        <div id="activate-pump-for-div" class="input-section-wrapper">
-            <label for="activate-pump-for-value" id="activate-pump-for-label" class="label">Activate Pump For (0-100):</label>
-            <input type="number" id="activate-pump-for-value" class="input" name="activate-pump-for-value" min="1" max="10" step="0.1"/>
-            <button id="activate-pump-for-btn" class="btn">Publish</button>   
-        </div>
-        <div id="misuration-interval-div" class="input-section-wrapper">
-            <label for="misuration-interval-value" id="misuration-interval-label" class="label">Misuration Interval (0-86.400):</label>
-            <input type="number" id="misuration-interval-value" class="input" name="misuration-interval-value" min="0" max="86400" />
-            <button id="misuration-interval-btn" class="btn">Publish</button>   
-        </div>
-        <div id="irrigate-now-div" class="input-section-wrapper">
-            <label for="irrigate-now-value" id="irrigate-now-label" class="label">Irrigate on next measuration: </label>
-            <input type="checkbox" id="irrigate-now-value" class="input" name="irrigate-now-value" min="0" max="1"/>
-            <button id="irrigate-now-btn" class="btn">Publish</button>   
-        </div>
-        <div id="alert-container">
-        </div>
-    </section>
-    
+    </div>
+
+    <div class="alert-container" id="alert-container"></div>
 </body>
 <script src="script.js" type="text/javascript"></script>
 </html>
