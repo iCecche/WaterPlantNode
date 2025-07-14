@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication - IoT Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body>
+    <div class="auth-container">
+        <!-- Login Form -->
+        <div id="login-form" class="auth-section">
+            <div class="auth-header">
+                <h1 class="auth-title">Welcome Back</h1>
+                <p class="auth-subtitle">Sign in to your IoT Dashboard</p>
+            </div>
+
+            <div class="error-message" id="login-error"></div>
+            <div class="success-message" id="login-success"></div>
+
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="login-email">Email</label>
+                    <input type="email" id="login-email" class="form-input" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="auth-button" id="login-btn">
+                    <span id="login-btn-text">Sign In</span>
+                    <div class="loading-spinner" id="login-spinner"></div>
+                </button>
+            </form>
+
+            <div class="auth-switch">
+                <p class="auth-switch-text">Don't have an account?</p>
+                <button class="auth-switch-button" id="show-register">Create Account</button>
+            </div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="register-form" class="auth-section hidden">
+            <div class="auth-header">
+                <h1 class="auth-title">Create Account</h1>
+                <p class="auth-subtitle">Join the IoT Dashboard</p>
+            </div>
+
+            <div class="error-message" id="register-error"></div>
+            <div class="success-message" id="register-success"></div>
+
+            <form class="auth-form" id="registerForm">
+                <div class="form-group">
+                    <label class="form-label" for="register-name">Full Name</label>
+                    <input type="text" id="register-name" class="form-input" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="register-email">Email</label>
+                    <input type="email" id="register-email" class="form-input" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="register-password">Password</label>
+                    <input type="password" id="register-password" class="form-input" placeholder="Create a password" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="register-confirm-password">Confirm Password</label>
+                    <input type="password" id="register-confirm-password" class="form-input" placeholder="Confirm your password" required>
+                </div>
+
+                <button type="submit" class="auth-button" id="register-btn">
+                    <span id="register-btn-text">Create Account</span>
+                    <div class="loading-spinner" id="register-spinner"></div>
+                </button>
+            </form>
+
+            <div class="auth-switch">
+                <p class="auth-switch-text">Already have an account?</p>
+                <button class="auth-switch-button" id="show-login">Sign In</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="auth.js" type="text/javascript"></script>
+</html>
