@@ -32,7 +32,7 @@
                 <span class="value" id="temperature-value">26</span>
                 <span class="unit">°C</span>
             </div>
-            <div class="card-indicator" style="--indicator-width: 65%"></div>
+            <div class="card-indicator" id="temperature-indicator" style="--indicator-width: 65%"></div>
         </div>
 
         <div class="card humidity">
@@ -48,7 +48,7 @@
                 <span class="value" id="humidity-value">32</span>
                 <span class="unit">%</span>
             </div>
-            <div class="card-indicator" style="--indicator-width: 32%"></div>
+            <div class="card-indicator" id="humidity-indicator" style="--indicator-width: 32%"></div>
         </div>
 
         <div class="card soil-moisture">
@@ -66,7 +66,7 @@
                 <span class="value" id="soil-moisture-value">32</span>
                 <span class="unit">%</span>
             </div>
-            <div class="card-indicator" style="--indicator-width: 32%"></div>
+            <div class="card-indicator" id="soil-moisture-indicator" style="--indicator-width: 32%"></div>
         </div>
 
         <div class="card irrigation">
@@ -82,7 +82,7 @@
                 <span class="value" id="last-irrigation-value">2</span>
                 <span class="unit" id="last-irrigation-unit">hours</span>
             </div>
-            <div class="card-indicator" style="--indicator-width: 80%"></div>
+            <div class="card-indicator" id="irrigation-indicator" style="--indicator-width: 80%"></div>
         </div>
 
         <div class="card forecast">
@@ -98,7 +98,7 @@
                 <span class="value">25</span>
                 <span class="unit">%</span>
             </div>
-            <div class="card-indicator" style="--indicator-width: 25%"></div>
+            <div class="card-indicator" id="forecast-indicator" style="--indicator-width: 25%"></div>
         </div>
 
         <div class="card battery">
@@ -114,7 +114,7 @@
                 <span class="value" id="battery-value">4.1</span>
                 <span class="unit">V</span>
             </div>
-            <div class="card-indicator" style="--indicator-width: 97%"></div>
+            <div class="card-indicator" id="battery-indicator" style="--indicator-width: 97%"></div>
         </div>
     </div>
 
@@ -161,7 +161,7 @@
                 <label class="control-label">Irrigation Control</label>
                 <div class="checkbox-group">
                     <input type="checkbox" id="irrigate-now-value" class="control-input" />
-                    <span style="color: rgba(255, 255, 255, 0.9);">Irrigate on next measurement</span>
+                    <span>Irrigate on next measurement</span>
                 </div>
                 <button id="irrigate-now-btn" class="control-btn">Apply Setting</button>
             </div>
