@@ -338,8 +338,8 @@ function updateUi(data) {
         document.getElementById("last-irrigation-value").textContent = "None";
         document.getElementById("last-irrigation-unit").textContent = "";
     } else {
-        document.getElementById("last-irrigation-value").textContent = lastData.last_irrigation[1];
-        document.getElementById("last-irrigation-unit").textContent = lastData.last_irrigation[2];
+        document.getElementById("last-irrigation-value").textContent = lastData.last_irrigation[0];
+        document.getElementById("last-irrigation-unit").textContent = lastData.last_irrigation[1];
     }
 
     updateIndicators(data);

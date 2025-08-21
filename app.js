@@ -189,38 +189,22 @@ async function fetchWeather() {
 }
 
 function calculateTime(timestamp) {
+      if (!timestamp) return "None";
 
-    if(timestamp == 0) return "None";
+      const date = moment.tz(timestamp, "Europe/Rome");
+      const now = moment.tz("Europe/Rome");
+      const diff = moment.duration(now.diff(date));
 
-    const format = "YYYY-MM-DD HH:mm:ss"; 
-    
-    let date = moment(timestamp).tz("Europe/Rome").format(format);
-    let difference = moment(date).fromNow(true);
+      if (diff.asSeconds() <= 0)
+          return "None";
 
-    return extractSubstrings(difference);
-}
-
-function extractSubstrings(string) {
-
-    const convertedString = convertTimeUnitsAbbreviations(string);
-    const regex = /^(\w+).* (\w+)$/i
-    let newStrings =  convertedString.match(regex);
-
-    if (newStrings[1].charAt(0) === "a") newStrings[1] = "1";
-    return newStrings;
-}
-
-function convertTimeUnitsAbbreviations(inputString) {
-    const timeUnits = [
-      { full: 'hours', abbreviation: 'h' },
-      { full: 'minutes', abbreviation: 'min' },
-      { full: 'seconds', abbreviation: 'sec' },
-      { full: 'minute', abbreviation: 'min' },
-      { full: 'second', abbreviation: 'sec' },
-      // Add other time units as needed
-    ];
-  
-    const regexPattern = new RegExp(timeUnits.map(unit => unit.full).join('|'), 'gi');
-    
-    return inputString.replace(regexPattern, match => timeUnits.find(unit => unit.full.toLowerCase() === match.toLowerCase())?.abbreviation || match);
+      if (diff.asSeconds() < 60) {
+            return [Math.floor(diff.asSeconds()), "sec"];
+      } else if (diff.asMinutes() < 60) {
+            return [Math.floor(diff.asMinutes()), "min"];
+      } else if (diff.asHours() < 24) {
+            return [Math.floor(diff.asHours()), "h"];
+      } else {
+            return [Math.floor(diff.asDays()), "d"];
+      }
 }
