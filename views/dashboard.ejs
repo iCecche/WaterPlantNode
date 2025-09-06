@@ -95,7 +95,7 @@
                 <h2 class="card-title">Rain Forecast</h2>
             </div>
             <div class="card-value">
-                <span class="value">25</span>
+                <span class="value"><%= rainProbability %></span>
                 <span class="unit">%</span>
             </div>
             <div class="card-indicator" id="forecast-indicator" style="--indicator-width: 25%"></div>
@@ -115,6 +115,21 @@
                 <span class="unit">V</span>
             </div>
             <div class="card-indicator" id="battery-indicator" style="--indicator-width: 97%"></div>
+        </div>
+        <div class="card measurement">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5l1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                </div>
+                <h2 class="card-title">Last Measurement</h2>
+            </div>
+            <div class="card-value">
+                <span class="value" id="last-measurement-value">5</span>
+                <span class="unit" id="last-measurement-unit">minutes</span>
+            </div>
+            <div class="card-indicator" id="measurement-indicator" style="--indicator-width: 60%"></div>
         </div>
     </div>
 

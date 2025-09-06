@@ -105,6 +105,10 @@ body {
     --accent-color: #06b6d4;
 }
 
+.card.measurement {
+    --accent-color: #6366f1;
+}
+
 .card-header {
     display: flex;
     align-items: center;

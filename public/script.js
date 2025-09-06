@@ -278,7 +278,7 @@ function mapValue(voltage, minVoltage, maxVoltage) {
     return((voltage - minVoltage) / (maxVoltage - minVoltage)) * 100;
 }
 
-function updateIndicators(data) {
+function updateIndicators(data, currentMeasurationInterval) {
     const lastData = data.at(data.length - 1);
 
     // Update temperature indicator
@@ -305,9 +305,12 @@ function updateIndicators(data) {
     // Update forecast indicator (rain probability)
     const forecastPercentage = Math.random() * 100; // Replace with actual forecast data
     document.getElementById("forecast-indicator").style.setProperty('--indicator-width', `${forecastPercentage}%`);
+
+    const measurementPercentage = Math.min(Date.valueOf() / (Date.valueOf(lastData.timeOfmisurationDiff[0]) + currentMeasurationInterval ) * 100, 100);
+    document.getElementById("measurement-indicator").style.setProperty('--indicator-width', `${measurementPercentage}%`);
 }
 
-function updateUi(data) {
+function updateUi(data, currentMeasurationInterval) {
     timeRecords.length = 0;
     temperatureRecords.length = 0;
     humidityRecords.length = 0;
@@ -326,13 +329,13 @@ function updateUi(data) {
 
     const lastData = data.at(data.length - 1);
 
-    document.getElementById("temperature-value").textContent = lastData.temperature;
-    document.getElementById("humidity-value").textContent = lastData.humidity;
+    document.getElementById("temperature-value").textContent = lastData.temperature.toFixed(1);
+    document.getElementById("humidity-value").textContent = lastData.humidity.toFixed(1);
     document.getElementById("soil-moisture-value").textContent = lastData.soil_moisture;
     document.getElementById("battery-value").textContent = lastData.battery_level.toFixed(2);
     document.getElementById("moisture-limit-value").value = lastData.soil_moisture_limit;
     document.getElementById("activate-pump-for-value").value = lastData.activate_pump_for;
-    document.getElementById("misuration-interval-value").value = lastData.misuration_interval;
+    document.getElementById("misuration-interval-value").value = currentMeasurationInterval;
 
     if (lastData.last_irrigation === "None") {
         document.getElementById("last-irrigation-value").textContent = "None";
@@ -340,6 +343,14 @@ function updateUi(data) {
     } else {
         document.getElementById("last-irrigation-value").textContent = lastData.last_irrigation[0];
         document.getElementById("last-irrigation-unit").textContent = lastData.last_irrigation[1];
+    }
+
+    if (lastData.timeOfmisurationDiff === "None") {
+        document.getElementById("last-measurement-value").textContent = "None";
+        document.getElementById("last-measurement-unit").textContent = "";
+    }else {
+        document.getElementById("last-measurement-value").textContent = lastData.timeOfmisurationDiff[0];
+        document.getElementById("last-measurement-unit").textContent = lastData.timeOfmisurationDiff[1];
     }
 
     updateIndicators(data);
@@ -372,8 +383,8 @@ function CreateAlertMessage() {
 const url = window.location.origin;
 const socket = io.connect(url);
 
-socket.on("newMqttMessage", function (data) {
-    updateUi(data);
+socket.on("newMqttMessage", function (historical, currentMeasurationInterval) {
+    updateUi(historical, currentMeasurationInterval);
 });
 
 window.addEventListener("load", (event) => {
